@@ -4,16 +4,16 @@ import matplotlib.pyplot as plt
 
 class Gene:
     """Gene created from two parent genes (or randomly when no arguments are given)"""
-    def __init__(self, dominant_parent=None, recessive_parent=None):  # recessive_parent
+    def __init__(self, parent1=None, parent2=None):
         self.path = []    # Representation of path using indices
         self.distance_value = float()
-        if (dominant_parent == None and recessive_parent == None):  # Create a gene of the first generation
+        if (parent1 == None and parent2 == None):  # Create a gene of the first generation
             self.path = list(range(22))
             random.shuffle(self.path)
         else:
             random_initial_idx1, random_initial_idx2 = random.randint(0, 10), random.randint(0, 12)
-            self.path[:12] = dominant_parent.path[random_initial_idx1:random_initial_idx1 + 12]
-            self.path[12:] = recessive_parent.path[random_initial_idx2:random_initial_idx2 + 10]
+            self.path[:12] = parent1.path[random_initial_idx1:random_initial_idx1 + 12]
+            self.path[12:] = parent2.path[random_initial_idx2:random_initial_idx2 + 10]
 
             multiples, missing = [], []
             for i in range(22):
@@ -88,7 +88,8 @@ while not is_converged:
     if convergence_counter > 75: is_converged = True    # Quit when no improvement for 75 consecutive gens
 
 gene_pool.sort(key=Gene.Distance)       # Sort from best to worst
-print(location_idx_list[idx] for idx in gene_pool[0].path)      # Take out the best gene
+for idx in gene_pool[0].path:
+    print(location_idx_list[idx], end='\t')      # Print results of best gene
 
 # Plotting the results
 x_range = [locations["Roosendaal"][1], locations[location_idx_list[gene_pool[0].path[0]]][1]]
