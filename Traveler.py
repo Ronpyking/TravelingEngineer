@@ -55,7 +55,7 @@ locations = {   # Locations in degrees longitude (N) and lattitude (E)
 location_idx_list = [key for key in locations if key != "Roosendaal"]  # Ordered list of the locations
 
 nr_of_parents = 5000        # The number of genes that are kept and from which children will be made
-nr_of_children = 10         # The number of children per pair of parents
+nr_of_children = 12         # The number of children per pair of parents
 
 gene_pool = []      # List containing all genes
 for i in range(nr_of_parents): gene_pool.append(Gene())    # Create the first generation of genes
@@ -83,13 +83,12 @@ while not is_converged:
 
     if current_best < alltime_best:         # Set all-time best to current best when appropriate
         alltime_best = current_best
-        print(f"Generation: {it_nr} \t Distance: {alltime_best:0.01f} km")     # Print out improvement
+        print(f"Generation: {it_nr} \t\t Distance: {alltime_best:0.01f} km")     # Print out improvement
 
     if convergence_counter > 75: is_converged = True    # Quit when no improvement for 75 consecutive gens
 
 gene_pool.sort(key=Gene.Distance)       # Sort from best to worst
-for idx in gene_pool[0].path:
-    print(location_idx_list[idx], end='\t')      # Print results of best gene
+for idx in gene_pool[0].path: print(location_idx_list[idx], end='\t')      # Print results of best gene
 
 # Plotting the results
 x_range = [locations["Roosendaal"][1], locations[location_idx_list[gene_pool[0].path[0]]][1]]
